@@ -1,4 +1,4 @@
-import { QueryClient } from "react-query";
+import { QueryCache, QueryClient } from "react-query";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -6,5 +6,5 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
     },
-  },
+  }
 });

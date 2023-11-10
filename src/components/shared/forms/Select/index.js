@@ -11,6 +11,7 @@ export function Select({
   style: styleSelect,
   select = { style: (inputStyle = {}) },
 }) {
+  
   return (
     <View style={{ ...style.group, ...styleSelect }}>
       <Text style={style.label}>{label}:</Text>

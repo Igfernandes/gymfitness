@@ -21,9 +21,11 @@ export function usePutUser({ navigation }) {
       });
 
       Alert.alert("Atualizado com sucesso!");
+      queryClient.invalidateQueries({
+        queryKey: ["users"],
+      });
     },
     onError: (err) => {
-      queryClient.invalidateQueries(["users"]);
       Alert.alert(err.message);
     },
   });

@@ -1,6 +1,5 @@
 import { debbug } from "../../../src/helpers/debbug";
 import Database from "../../config/database";
-import { BaseMappers } from "./baseMappers";
 
 export function BaseModel() {
   /**
@@ -139,8 +138,7 @@ export function BaseModel() {
         }`
       );
 
-      const mappers = new BaseMappers();
-      const userEntities = await mappers.mapper(entity, data.rows);
+      const userEntities = data.rows;
 
       return userEntities.length > 0 ? userEntities[0] : null;
     } catch (err) {
@@ -181,9 +179,7 @@ export function BaseModel() {
         }`
       );
 
-      const mappers = new BaseMappers();
-
-      return await mappers.mapper(entity, data.rows);
+      return data.rows;
     } catch (err) {
       debbug(err);
       console.log(err);

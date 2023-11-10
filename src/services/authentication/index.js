@@ -1,11 +1,13 @@
-import { useNavigation } from "../../contexts/useNavigation";
 import { Alert } from "react-native";
 import { useAxios } from "../../hooks/useAxios";
 import { apiRoutes } from "../Api";
 import { useMutation } from "react-query";
+import { useNavigations } from "../../contexts/useNavigations";
+import { useNavigation } from "@react-navigation/native";
 
 export function useAuthentication() {
-  const { handleUser, handleStep } = useNavigation();
+  const { navigate } = useNavigation();
+  const { handleUser } = useNavigations();
   const { request } = useAxios();
   const { auth } = apiRoutes;
 
@@ -18,7 +20,7 @@ export function useAuthentication() {
   return useMutation(authentication, {
     onSuccess: ({ data }) => {
       handleUser(data.user);
-      handleStep("logged");
+      navigate("UserLogged");
     },
     onError: (err) => {
       Alert.alert("Credenciais inválidas");

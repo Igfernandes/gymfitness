@@ -28,7 +28,7 @@ export function Users() {
   };
 
   this.setId = (id) => {
-    if (typeof id != "bigint" || ONLY_SPACES.test(id))
+    if ((typeof id != "bigint" && typeof id != "number") || ONLY_SPACES.test(id))
       throw new Error("O id inserido não é um numero válido");
 
     this.attributes.id = id;

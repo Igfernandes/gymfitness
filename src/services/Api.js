@@ -5,5 +5,14 @@ export const apiRoutes = {
     put: (id) => {
       return `/users/${id}`;
     },
+    delete: (id) => {
+      return `/users/${id}`;
+    },
+  },
+  timelines: {
+    default: "/timelines",
+  },
+  notifies: {
+    default: "/alerts",
   },
 };

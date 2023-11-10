@@ -8,7 +8,7 @@ import { FormChecked } from "../shared/forms/FormChecked";
 import { useCollpaseTimes } from "./hooks/useCollpaseTimes";
 import { When } from "../shared/utils/When";
 
-export default function Operation({ navigation }) {
+export default function Operation({ timesOperation }) {
   const {
     hasMonday,
     setHasMonday,
@@ -24,9 +24,7 @@ export default function Operation({ navigation }) {
     setHasSaturday,
     hasSunday,
     setHasSunday,
-    hasDefault,
-    setHasDefault,
-  } = useCollpaseTimes();
+  } = useCollpaseTimes(timesOperation);
   const {
     timeToClockSelect,
     segunda,
@@ -42,8 +40,10 @@ export default function Operation({ navigation }) {
     sabado,
     setSabado,
     domingo,
-    setDomingo
-  } = useOperation();
+    setDomingo,
+    isLoading,
+    handleSubmitOperations,
+  } = useOperation(timesOperation);
   const timesOfClock = timeToClockSelect();
 
   return (
@@ -53,7 +53,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Segunda"
-            setValue={setHasMonday}
+            setValue={(text) => {
+              setHasMonday(text);
+              setSegunda({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasMonday}
           />
           <When isValid={hasMonday}>
@@ -86,7 +92,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Terça"
-            setValue={setHasTuesday}
+            setValue={(text) => {
+              setHasTuesday(text);
+              setTerca({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasTuesday}
           />
           <When isValid={hasTuesday}>
@@ -117,7 +129,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Quarta"
-            setValue={setHasWednesday}
+            setValue={(text) => {
+              setHasWednesday(text);
+              setQuarta({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasWednesday}
           />
           <When isValid={hasWednesday}>
@@ -148,7 +166,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Quinta"
-            setValue={setHasThursday}
+            setValue={(text) => {
+              setHasThursday(text);
+              setQuinta({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasThursday}
           />
           <When isValid={hasThursday}>
@@ -179,7 +203,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Sexta"
-            setValue={setHasFriday}
+            setValue={(text) => {
+              setHasFriday(text);
+              setSexta({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasFriday}
           />
           <When isValid={hasFriday}>
@@ -210,7 +240,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Sabado"
-            setValue={setHasSaturday}
+            setValue={(text) => {
+              setHasSaturday(text);
+              setSabado({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasSaturday}
           />
           <When isValid={hasSaturday}>
@@ -241,7 +277,13 @@ export default function Operation({ navigation }) {
         <View style={styleLayout.content}>
           <FormChecked
             label="Domingo"
-            setValue={setHasSunday}
+            setValue={(text) => {
+              setHasSunday(text);
+              setDomingo({
+                abertura: null,
+                termino: null,
+              });
+            }}
             value={hasSunday}
           />
           <When isValid={hasSunday}>
@@ -271,7 +313,12 @@ export default function Operation({ navigation }) {
         </View>
         {/*FLEXIBILIDADE DA POSIÇÃO DO BOTÃO */}
         <View style={styleLayout.formSubmit}>
-          <Button text={"Cadastrar"} style={styleLayout.btnSubmit} />
+          <Button
+            text={"Cadastrar"}
+            style={styleLayout.btnSubmit}
+            onPress={handleSubmitOperations}
+            isLoading={isLoading}
+          />
         </View>
       </View>
     </View>

@@ -1,11 +1,13 @@
-import { useNavigation } from "../../../contexts/useNavigation";
+import { useNavigation } from "@react-navigation/native";
+import { useNavigations } from "../../../contexts/useNavigations";
 import { useGetUser } from "../../../services/users/get";
 import { useState, useEffect } from "react";
 
 export function useDashboard() {
+  const { navigate } = useNavigation();
   const { data, isFetched } = useGetUser();
   const [users, setUsers] = useState([]);
-  const { handleClearUser, handleStep, handleUser } = useNavigation();
+  const { handleClearUser, handleUser } = useNavigations();
 
   useEffect(() => {
     if (data) setUsers(data ?? []);
@@ -14,7 +16,7 @@ export function useDashboard() {
   const handleLoggout = async () => {
     await handleClearUser();
     handleUser(null);
-    handleStep("auth");
+    navigate("Login")
   };
 
   return {

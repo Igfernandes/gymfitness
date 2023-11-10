@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { usePostUser } from "../../../services/users/post";
 import { usePutUser } from "../../../services/users/put";
+import { useDeleteUser } from "../../../services/users/delete";
 
 export function useProfile({ navigation, data, isUpdate, id }) {
-  const { mutate: postUsers, postIsLoading } = usePostUser({ navigation });
-  const { mutate: putUsers, putIsLoading } = usePutUser({ navigation });
+  const { mutate: deleteUser, isLoading: deleteIsLoading } = useDeleteUser({ navigation });
+  const { mutate: postUsers, isLoading: postIsLoading } = usePostUser({ navigation });
+  const { mutate: putUsers,  isLoading: putIsLoading } = usePutUser({ navigation });
   const [form, setForm] = useState({
     name: data.name ?? "",
     birthdate: data.birthdate ?? "",
@@ -41,10 +43,16 @@ export function useProfile({ navigation, data, isUpdate, id }) {
     else postUsers(form);
   };
 
+  const handleDeleteUser = () => {
+    deleteUser(id)
+  }
+
   return {
     handleSubmit,
     form,
     setForm,
     isLoading: postIsLoading || putIsLoading,
+    deleteIsLoading,
+    handleDeleteUser
   };
 }

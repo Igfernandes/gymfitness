@@ -2,18 +2,22 @@ import { useAxios } from "../../hooks/useAxios";
 import { apiRoutes } from "../Api";
 import { useQuery } from "react-query";
 
-export function useGetUser(payload) {
+export function useGetNotifies() {
   const { request } = useAxios();
-  const { users } = apiRoutes;
+  const { notifies } = apiRoutes;
 
-  async function getUser() {
-    if (payload) return await request().get(users.default, payload);
-    else return await request().get(users.default);
+  async function getNotifies() {
+    try {
+      return await request().get(notifies.default);
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
   }
 
   const { data, ...rest } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUser,
+    queryKey: ["alerts"],
+    queryFn: getNotifies,
     enabled: true,
   });
 

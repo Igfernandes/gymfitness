@@ -11,11 +11,18 @@ import { When } from "../shared/utils/When";
 import { colors } from "../../styles/colors";
 
 export default function Profile({ navigation, data = {}, isUpdate, id }) {
-  const { handleSubmit, form, setForm, isLoading } = useProfile({
+  const {
+    handleSubmit,
+    form,
+    setForm,
+    isLoading,
+    deleteIsLoading,
+    handleDeleteUser,
+  } = useProfile({
     navigation,
     data,
     isUpdate,
-    id
+    id,
   });
 
   return (
@@ -156,7 +163,9 @@ export default function Profile({ navigation, data = {}, isUpdate, id }) {
             value={form.password}
             placeholder="Senha (Min 6 caracteres)"
           />
-          <Text style={{color: colors.white[700]}}>{'O mínimo são 4 caracteres para senha'}</Text>
+          <Text style={{ color: colors.white[700] }}>
+            {"O mínimo são 4 caracteres para senha"}
+          </Text>
           <Select
             label={"Selecione o status"}
             value={form.status}
@@ -181,11 +190,26 @@ export default function Profile({ navigation, data = {}, isUpdate, id }) {
         <View style={styleLayout.formSubmit}>
           <Button
             text={isUpdate ? "Atualizar" : "Cadastrar"}
-            style={styleLayout.btnSubmit}
+            style={{
+              ...styleLayout.btnSubmit,
+              ...{
+                margimBottom: isUpdate ? "0%" : "35%",
+              }
+            }}
             onPress={handleSubmit}
             isLoading={isLoading}
           />
         </View>
+        <When isValid={isUpdate}>
+          <View style={styleLayout.formDelete}>
+            <Button
+              text={"Excluir usuário"}
+              style={styleLayout.btnDelete}
+              onPress={handleDeleteUser}
+              isLoading={deleteIsLoading}
+            />
+          </View>
+        </When>
       </View>
     </View>
   );

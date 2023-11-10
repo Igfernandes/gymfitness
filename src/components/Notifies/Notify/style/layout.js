@@ -14,13 +14,13 @@ export const styleLayout = StyleSheet.create({
   },
   groupName: {
     position: "relative",
-    width: "50%",
+    width: "55%",
     display: "flex",
     flexDirection: "row",
   },
   name: {
     color: colors.white.default,
-    fontSize: 16,
+    fontSize: 13,
   },
   iconViewer: {
     backgroundColor: colors.green.default,

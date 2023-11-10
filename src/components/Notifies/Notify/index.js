@@ -1,24 +1,25 @@
 import { When } from "../../shared/utils/When";
 import { View, Text } from "react-native";
 import { styleLayout } from "./style/layout";
+import { convertDatetimeBr } from "../../../helpers/convertDatetimeBr";
 
 export function Notify({
   name = "",
   date = "",
   message = "",
-  status = "NOT_VIEWED",
+  // status = "NOT_VIEWED",
 }) {
   return (
     <View style={styleLayout.content}>
       <View style={styleLayout.box}>
         <View style={styleLayout.groupName}>
           <Text style={styleLayout.name}>{name}</Text>
-          <When isValid={status == "NOT_VIEWED"}>
+          {/* <When isValid={status == "NOT_VIEWED"}>
             <View style={styleLayout.iconViewer}></View>
-          </When>
+          </When> */}
         </View>
         <View>
-          <Text style={styleLayout.date}>{date}</Text>
+          <Text style={styleLayout.date}>{convertDatetimeBr(date)}</Text>
         </View>
       </View>
       <View>

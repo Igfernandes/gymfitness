@@ -1,10 +1,10 @@
 import { BAD_REQUEST, INTERNAL_ERROR, OK } from "../../../constants/status";
-import { GetTimelinesUseCase } from "./useCase";
+import { GetAlertsUseCase } from "./useCase";
 
-export function GetTimelinesController() {
+export function GetAlertsController() {
   this.handle = async (request, response) => {
     try {
-      const getUsecase = new GetTimelinesUseCase();
+      const getUsecase = new GetAlertsUseCase();
 
       const resp = await getUsecase.execute();
 

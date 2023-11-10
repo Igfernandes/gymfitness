@@ -1,12 +1,13 @@
 import { Button } from "../shared/forms/Button";
 import BoxTimeOperation from "../shared/layout/BoxTimeOperation";
 import { BoxText } from "../shared/layout/boxText";
+import { When } from "../shared/utils/When";
 import CardUser from "./CardUser";
 import { useDashboard } from "./hooks/useDashboard";
 import { styleLayout } from "./style/layout";
 import { View, Text } from "react-native";
 
-export default function Dashboard({ navigation }) {
+export default function Dashboard({ navigation, timesOperation }) {
   const { handleLoggout, users } = useDashboard();
 
   return (
@@ -26,7 +27,12 @@ export default function Dashboard({ navigation }) {
         ]}
         navigation={navigation}
       />
-      <BoxTimeOperation />
+      <When
+        isValid={Array.isArray(timesOperation) && timesOperation.length > 0}
+      >
+        <BoxTimeOperation timesOperation={timesOperation} />
+      </When>
+
       <View style={styleLayout.box}>
         <Text style={styleLayout.title}>{"Lista de usuários"}</Text>
         <Text style={styleLayout.counter}>{`(${users.length})`}</Text>

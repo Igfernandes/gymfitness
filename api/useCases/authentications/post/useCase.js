@@ -1,5 +1,6 @@
 import { BAD_BUSINESS } from "../../../constants/status";
 import { Users } from "../../../database/entities/users";
+import { usersMapper } from "../../../database/mappers/usersMapper";
 import { BaseModel } from "../../../database/utils/baseModel";
 import * as crypto from "crypto";
 
@@ -8,10 +9,12 @@ export function PostAuthenticationsUseCase() {
     const model = new BaseModel();
     const users = new Users();
 
-    const foundUser = await model.findFirst(users, {
-      email,
-      password: crypto.createHash("sha1").update(password).digest("hex"),
-    });
+    const foundUser = await usersMapper([
+      await model.findFirst(users, {
+        email,
+        password: crypto.createHash("sha1").update(password).digest("hex"),
+      }),
+    ]);
 
     if (!foundUser)
       throw {
@@ -19,11 +22,11 @@ export function PostAuthenticationsUseCase() {
         code: BAD_BUSINESS,
       };
 
-    const userData = foundUser.attributes;
+    const userData = foundUser[0].attributes;
     delete userData["password"];
 
     return {
-      succces: "Usuário criado com sucesso",
+      success: "Usuário criado com sucesso",
       user: userData,
     };
   };

@@ -1,10 +1,9 @@
-import { timesOperation } from "./__mooks__/timesOperation";
 import { useTimesOperation } from "./hooks/useTimesOperation";
 import { View, Text } from "react-native";
 import { styleLayout } from "./style";
 import { When } from "../../utils/When";
 
-export default function BoxTimeOperation() {
+export default function BoxTimeOperation({ timesOperation }) {
   const { weekDays, getHours, getStatus, isStatusCurrent } =
     useTimesOperation(timesOperation);
 

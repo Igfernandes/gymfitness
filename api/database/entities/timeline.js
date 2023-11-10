@@ -1,4 +1,4 @@
-import { ONLY_SPACES } from "../../constants/regex";
+import { ONLY_SPACES } from "../../../src/constants/regex";
 
 export function Timeline() {
   this.table = "timeline";
@@ -16,7 +16,10 @@ export function Timeline() {
   };
 
   this.setId = (id) => {
-    if (typeof id != "bigint" || ONLY_SPACES.test(id))
+    if (
+      (typeof id != "bigint" && typeof id != "number") ||
+      ONLY_SPACES.test(id)
+    )
       throw new Error("O id inserido não é um numero válido");
 
     this.attributes.id = id;
@@ -51,9 +54,6 @@ export function Timeline() {
   };
 
   this.setCreatedAt = (createdAt) => {
-    if (typeof createdAt != "string" || ONLY_SPACES.test(createdAt))
-      throw new Error("A data inserida não é válida");
-
     this.attributes.created_at = createdAt;
   };
 
@@ -62,9 +62,6 @@ export function Timeline() {
   };
 
   this.setUpdatedAt = (updateddAt) => {
-    if (typeof updateddAt != "string" || ONLY_SPACES.test(updateddAt))
-      throw new Error("A data inserida não é válida");
-
     this.attributes.updated_at = updateddAt;
   };
 }

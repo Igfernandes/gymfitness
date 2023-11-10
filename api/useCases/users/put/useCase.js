@@ -1,5 +1,6 @@
 import { BAD_REQUEST } from "../../../constants/status";
 import { Users } from "../../../database/entities/users";
+import { usersMapper } from "../../../database/mappers/usersMapper";
 import { BaseModel } from "../../../database/utils/baseModel";
 
 export function PutUsersUseCase() {
@@ -7,7 +8,7 @@ export function PutUsersUseCase() {
     const model = new BaseModel();
     const users = new Users();
 
-    const foundUser = await model.findAll(users);
+    const foundUser = usersMapper(await model.findAll(users));
 
     if (
       await foundUser.find(
@@ -20,7 +21,9 @@ export function PutUsersUseCase() {
       };
 
     if (
-      await foundUser.find((user) => user.getCPF() == where.cpf && user.getId() != id)
+      await foundUser.find(
+        (user) => user.getCPF() == where.cpf && user.getId() != id
+      )
     )
       throw {
         message: "O CPF já está sendo utilizado",
@@ -48,7 +51,7 @@ export function PutUsersUseCase() {
     });
 
     return {
-      succces: "Usuário criado com sucesso",
+      success: "Usuário criado com sucesso",
       id,
     };
   };

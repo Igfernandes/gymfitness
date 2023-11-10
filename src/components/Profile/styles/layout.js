@@ -11,7 +11,18 @@ export const styleLayout = StyleSheet.create({
   },
   formSubmit: {
     marginTop: "5%",
+  },
+  formDelete: {
     marginBottom: "35%"
+  },
+  btnDelete: {
+    color: colors.white.default,
+    padding: "4%",
+    backgroundColor: colors.red.default,
+    textAlign: "center",
+    fontWeight: "bold",
+    marginBottom: "5%",
+    borderRadius: 5
   },
   btnSubmit: {
     color: colors.white.default,

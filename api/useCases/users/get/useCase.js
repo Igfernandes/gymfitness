@@ -1,4 +1,5 @@
 import { Users } from "../../../database/entities/users";
+import { usersMapper } from "../../../database/mappers/usersMapper";
 import { BaseModel } from "../../../database/utils/baseModel";
 
 export function GetUsersUseCase() {
@@ -21,7 +22,9 @@ export function GetUsersUseCase() {
     if (where.weight) users.setWeight(where.weight);
     if (where.birthdate) users.setBirthdate(where.birthdate);
 
-    const foundUsers = await model.findAll(users, users.attributes);
+    const foundUsers = usersMapper(
+      await model.findAll(users, users.attributes)
+    );
 
     return foundUsers.map((user) => {
       const { password, birthdate, ...data } = user.attributes;

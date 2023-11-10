@@ -1,22 +1,24 @@
 import { View, Image, SafeAreaView } from "react-native";
 import { styleHeader } from "./style/styleHeader";
-import { useNavigation } from "../../../../contexts/useNavigation";
 import { When } from "../../utils/When";
+import { useNavigations } from "../../../../contexts/useNavigations";
+import { useNavigation } from "@react-navigation/native";
 
-export function Headers({ children }) {
-  const { user, handleStep, step } = useNavigation();
+export function Headers() {
+  const { navigate } = useNavigation();
+  const { user } = useNavigations();
 
   return (
-    <When isValid={!!user && step != "auth"}>
+    <When isValid={!!user}>
       <SafeAreaView style={styleHeader.content}>
-        <View style={styleHeader.box} onTouchStart={() => handleStep("logged")}>
+        <View style={styleHeader.box} onTouchStart={() => navigate("Dashboard")}>
           <Image
             style={styleHeader.logo}
             source={require("@public/images/logotype.png")}
           />
         </View>
         <View style={{ ...styleHeader.box, justifyContent: "flex-end" }}>
-          <View onTouchStart={() => handleStep("notify")}>
+          <View onTouchStart={() => navigate("Notificacao")}>
             <Image
               style={styleHeader.notifyIcon}
               source={require("@public/icons/bell.png")}

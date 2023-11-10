@@ -4,7 +4,7 @@ export function AlertsMigration() {
         id            SERIAL PRIMARY KEY,
         title         VARCHAR(250) NOT NULL,
         describe      TEXT NOT NULL,
-        published_at  TIMESTAMPTZ NOT NULL,
+        published_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
         updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`);

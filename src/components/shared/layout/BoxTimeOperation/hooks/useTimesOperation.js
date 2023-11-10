@@ -18,17 +18,17 @@ export function useTimesOperation(timesOperation) {
 
   const getHours = (day) => {
     const dateFiltered = timesOperation.find(
-      (dataDay) => dataDay.weekDay == day
+      (dataDay) => dataDay.weekday == day
     );
 
     if (!dateFiltered) return "Fechado";
 
-    const { hours } = dateFiltered;
+    const { time_opened, time_closed } = dateFiltered;
 
-    if (!hours || !hours.opened || !hours.closed) return `Horário indisponível`;
+    if (!time_opened || !time_closed) return `Horário indisponível`;
 
-    const openedHour = new Date(`${dateCurrent}T${hours.opened}.000Z`);
-    const closedHour = new Date(`${dateCurrent}T${hours.closed}.000Z`);
+    const openedHour = new Date(`${dateCurrent}T${time_opened}.000Z`);
+    const closedHour = new Date(`${dateCurrent}T${time_closed}.000Z`);
 
     return `${formatTime(openedHour.getUTCHours())}:${formatTime(
       openedHour.getUTCMinutes()
@@ -40,23 +40,26 @@ export function useTimesOperation(timesOperation) {
   const getStatus = (day) => {
     const weekDayCurrent = weekDays[date.getDay()];
     const dateFiltered = timesOperation.find(
-      (dataDay) => dataDay.weekDay == weekDayCurrent && day == weekDayCurrent
+      (dataDay) => dataDay.weekday == weekDayCurrent && day == weekDayCurrent
     );
 
     if (!dateFiltered && !weekDayCurrent) return "Fechado";
+    else if (!dateFiltered && day == weekDayCurrent) return "Fechado";
     else if (!dateFiltered && weekDayCurrent) return "Aberto";
 
-    const { hours } = dateFiltered;
+    const { time_opened, time_closed } = dateFiltered;
 
-    if (!hours || !hours.opened || !hours.closed) return `Fechado`;
+    if (!time_opened || !time_closed) return `Fechado`;
 
-    const openedHour = new Date(`${dateCurrent}T${hours.opened}.000Z`);
-    const closedHour = new Date(`${dateCurrent}T${hours.closed}.000Z`);
+    const hourCurrent = `${formatTime(date.getHours())}${formatTime(
+      date.getMinutes()
+    )}${formatTime(date.getSeconds())}`;
+    const openedHour = time_opened.split(":").join("");
+    const closedHour = time_closed.split(":").join("");
 
     if (
       day == weekDayCurrent &&
-      (date.getTime() < openedHour.getTime() ||
-        date.getTime() > closedHour.getTime())
+      (hourCurrent < openedHour || hourCurrent > closedHour)
     )
       return `Fechado`;
 
@@ -64,14 +67,7 @@ export function useTimesOperation(timesOperation) {
   };
 
   const isStatusCurrent = (day) => {
-    const weekDayCurrent = weekDays[date.getDay()];
-    const dateFiltered = timesOperation.find(
-      (dataDay) => dataDay.weekDay == weekDayCurrent && day == weekDayCurrent
-    );
-
-    if (!dateFiltered) return false;
-
-    return true;
+    return day == weekDays[date.getDay()];
   };
 
   return {
@@ -79,5 +75,6 @@ export function useTimesOperation(timesOperation) {
     getStatus,
     getHours,
     isStatusCurrent,
+    setWeekDays,
   };
 }

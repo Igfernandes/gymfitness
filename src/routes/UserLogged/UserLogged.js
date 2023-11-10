@@ -15,7 +15,7 @@ export default function UserLoggedStack() {
       <Stack.Screen name="Funcionamento" component={Funcionamento} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
       <Stack.Screen name="Perfil" component={Perfil} />
-      <Stack.Screen name="Notify" component={Noticacao} />
+      <Stack.Screen name="Notificacao" component={Noticacao} />
     </Stack.Navigator>
   );
 }

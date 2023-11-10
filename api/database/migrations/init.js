@@ -1,6 +1,5 @@
 import Database from "../../config/database";
 import { AlertsMigration } from "./alerts";
-import { ConfigsMigration } from "./configs";
 import { TimelineMigration } from "./timeline";
 import { UserHasAlertMigration } from "./userHasAlert";
 import { UsersMigration } from "./users";
@@ -25,9 +24,6 @@ function MigrationInit() {
 
     const userHasAlert = new UserHasAlertMigration();
     userHasAlert.execute(pgAdmin);
-
-    const configsMigration = new ConfigsMigration();
-    configsMigration.execute(pgAdmin);
 
     pgAdmin.release();
   };

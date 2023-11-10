@@ -10,7 +10,10 @@ export function usePostUser({ navigation }) {
   const { users } = apiRoutes;
 
   async function postUser({ birthdate, ...payload }) {
-    const data = await request().post(users.default, { birthdate: convertDateBrToDefault(birthdate),...payload });
+    const data = await request().post(users.default, {
+      birthdate: convertDateBrToDefault(birthdate),
+      ...payload,
+    });
 
     return data;
   }
@@ -18,10 +21,10 @@ export function usePostUser({ navigation }) {
   return useMutation(postUser, {
     onSuccess: () => {
       queryClient.invalidateQueries(["users"]);
+      queryClient.invalidateQueries({ queryKey: ["alerts"] });
       navigation.navigate("Dashboard");
     },
     onError: (err) => {
-      console.log(JSON.stringify(err));
       Alert.alert(err.message);
     },
   });
