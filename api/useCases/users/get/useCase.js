@@ -22,7 +22,7 @@ export function GetUsersUseCase() {
     if (where.weight) users.setWeight(where.weight);
     if (where.birthdate) users.setBirthdate(where.birthdate);
 
-    const foundUsers = usersMapper(
+    const foundUsers = await usersMapper(
       await model.findAll(users, users.attributes)
     );
 

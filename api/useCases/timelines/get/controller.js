@@ -7,7 +7,7 @@ export function GetTimelinesController() {
       const getUsecase = new GetTimelinesUseCase();
 
       const resp = await getUsecase.execute();
-
+      
       return response.status(OK).json(resp);
     } catch (yupErrors) {
       const err = {

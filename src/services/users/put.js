@@ -15,11 +15,7 @@ export function usePutUser({ navigation }) {
   }
 
   return useMutation(putUser, {
-    onSuccess: ({ id }) => {
-      navigation.navigate("Perfil", {
-        userId: id,
-      });
-
+    onSuccess: () => {
       Alert.alert("Atualizado com sucesso!");
       queryClient.invalidateQueries({
         queryKey: ["users"],

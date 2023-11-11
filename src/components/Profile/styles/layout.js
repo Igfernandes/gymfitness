@@ -11,8 +11,6 @@ export const styleLayout = StyleSheet.create({
   },
   formSubmit: {
     marginTop: "5%",
-  },
-  formDelete: {
     marginBottom: "35%"
   },
   btnDelete: {

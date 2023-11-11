@@ -19,7 +19,7 @@ export function PutTimelinesController() {
       await putTimelinesSchema.validate(payload, yupOptions);
 
       const resp = await putUsecase.execute(payload);
-
+   
       return response.status(OK).json(resp);
     } catch (yupErrors) {
       const err = {

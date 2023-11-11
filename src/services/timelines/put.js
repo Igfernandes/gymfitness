@@ -17,9 +17,7 @@ export function usePutTimelines() {
   return useMutation(putTimelines, {
     onSuccess: () => {
       Alert.alert("Atualizado com sucesso!");
-      queryClient.invalidateQueries({
-        queryKey: ["timelines"]
-      });
+      queryClient.invalidateQueries(["timelines"]);
     },
     onError: (err) => {
       Alert.alert(err.message);

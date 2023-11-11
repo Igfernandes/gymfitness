@@ -7,7 +7,7 @@ export function DeleteUsersUseCase() {
     const model = new BaseModel();
     const users = new Users();
 
-    const foundUsers = usersMapper(
+    const foundUsers = await usersMapper(
       await model.findAll(users, {
         id,
       })

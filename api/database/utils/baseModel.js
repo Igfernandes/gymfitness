@@ -19,10 +19,14 @@ export function BaseModel() {
         )
       );
 
-      const columsIndex = Object.keys(values);
-      const columsValues = Object.values(values).map((columnValue) =>
-        typeof columnValue == "string" ? `'${columnValue}'` : columnValue
-      );
+      const columsIndex = await Object.keys(values);
+      const columsValues = [];
+
+      for await (const columnValue of Object.values(values)) {
+        columsValues.push(
+          typeof columnValue == "string" ? `'${columnValue}'` : columnValue
+        );
+      }
 
       await pgAdmin.query(
         `INSERT INTO ${entity.table}(${columsIndex.join(
@@ -30,7 +34,9 @@ export function BaseModel() {
         )}) VALUES (${columsValues.join(",")});`
       );
 
+      console.log("After consult");
       const foundUser = await this.findFirst(entity, entity.attributes);
+      console.log("After before");
 
       pgAdmin.release();
       return foundUser.id;
@@ -52,16 +58,22 @@ export function BaseModel() {
   this.update = async (entity, where) => {
     try {
       const pgAdmin = await Database();
+      const queryString = [];
 
       const matrizAttributesFiltered = Object.entries(entity.attributes).filter(
         ([index, value]) => value != null || value != undefined
       );
-      const queryString = Object.entries(where).map(
-        ([index, value]) =>
-          `${index}=${
-            typeof value == "string" && index != "id" ? `'${value}'` : value
-          }`
-      );
+
+      for await (const [index, value] of await Object.entries(
+        where ?? {}
+      ).filter(
+        ([label, whereString]) =>
+          whereString != null || whereString != undefined
+      )) {
+        queryString.push(
+          `${index}=${typeof value == "string" ? `'${value}'` : value}`
+        );
+      }
 
       await pgAdmin.query(
         `UPDATE ${entity.table} SET ${matrizAttributesFiltered.map(
@@ -89,16 +101,22 @@ export function BaseModel() {
   this.delete = async (entity, where) => {
     try {
       const pgAdmin = await Database();
+      const queryString = [];
 
-      const queryString = Object.entries(where).map(
-        ([index, value]) =>
+      for await (const [index, value] of await Object.entries(
+        where ?? {}
+      ).filter(
+        ([label, whereString]) =>
+          whereString != null || whereString != undefined
+      )) {
+        queryString.push(
           `${index}=${typeof value == "string" ? `'${value}'` : value}`
-      );
+        );
+      }
 
-      const data = await pgAdmin.query(
-        `DELETE FROM ${entity.table} WHERE ${queryString}`
-      );
+      await pgAdmin.query(`DELETE FROM ${entity.table} WHERE ${queryString}`);
 
+      pgAdmin.release();
       return true;
     } catch (err) {
       debbug(err);
@@ -119,16 +137,18 @@ export function BaseModel() {
   this.findFirst = async (entity, where, { columns, orders } = {}) => {
     try {
       const pgAdmin = await Database();
+      const queryString = [];
 
-      const queryString = Object.entries(where ?? {})
-        .filter(
-          ([columnName, columnValue]) =>
-            columnValue != null && columnValue != undefined
-        )
-        .map(
-          ([index, value]) =>
-            ` ${index}=${typeof value == "string" ? `'${value}'` : value}`
+      for await (const [index, value] of await Object.entries(
+        where ?? {}
+      ).filter(
+        ([label, whereString]) =>
+          whereString != null || whereString != undefined
+      )) {
+        queryString.push(
+          `${index}=${typeof value == "string" ? `'${value}'` : value}`
         );
+      }
 
       const data = await pgAdmin.query(
         `SELECT ${!!columns ? columns.join(",") : "*"} FROM ${
@@ -139,7 +159,7 @@ export function BaseModel() {
       );
 
       const userEntities = data.rows;
-
+      pgAdmin.release();
       return userEntities.length > 0 ? userEntities[0] : null;
     } catch (err) {
       debbug(err);
@@ -160,16 +180,18 @@ export function BaseModel() {
   this.findAll = async (entity, where, { columns, orders } = {}) => {
     try {
       const pgAdmin = await Database();
+      const queryString = [];
 
-      const queryString = Object.entries(where ?? {})
-        .filter(
-          ([label, whereString]) =>
-            whereString != null || whereString != undefined
-        )
-        .map(
-          ([index, value]) =>
-            `${index}=${typeof value == "string" ? `'${value}'` : value}`
+      for await (const [index, value] of await Object.entries(
+        where ?? {}
+      ).filter(
+        ([label, whereString]) =>
+          whereString != null || whereString != undefined
+      )) {
+        queryString.push(
+          `${index}=${typeof value == "string" ? `'${value}'` : value}`
         );
+      }
 
       const data = await pgAdmin.query(
         `SELECT ${!!columns ? columns.join(",") : "*"} FROM ${
@@ -179,6 +201,7 @@ export function BaseModel() {
         }`
       );
 
+      pgAdmin.release();
       return data.rows;
     } catch (err) {
       debbug(err);

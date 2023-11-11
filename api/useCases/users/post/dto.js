@@ -47,7 +47,7 @@ export const postUsersSchema = object({
     .required(messages.weight.required)
     .typeError(messages.weight.required),
   status: string()
-    .equals(["REGULAR"], messages.status.equals)
+    .equals(["REGULAR", "NEGATIVO"], messages.status.equals)
     .required(messages.status.required)
     .typeError(messages.status.required),
 });

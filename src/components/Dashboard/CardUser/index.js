@@ -2,6 +2,8 @@ import { Text, View } from "react-native";
 import { styleLayout } from "./style";
 import { capitalize } from "../../../helpers/capitalize";
 import { convertDateBr } from "../../../helpers/convertDateBr";
+import { When } from "../../shared/utils/When";
+import { colors } from "../../../styles/colors";
 
 export default function CardUser({
   id,
@@ -13,7 +15,6 @@ export default function CardUser({
   gender,
   navigation,
 }) {
-
   return (
     <View style={styleLayout.content}>
       <View style={styleLayout.box}>
@@ -23,7 +24,24 @@ export default function CardUser({
         <View style={styleLayout.group}>
           <Text style={styleLayout.text}>
             {`Status: `}
-            <Text style={styleLayout.status}>{status}</Text>
+            <When isValid={status == "REGULAR"}>
+              <Text
+                style={{
+                  color: colors.green.default,
+                }}
+              >
+                {status}
+              </Text>
+            </When>
+            <When isValid={status == "NEGATIVO"}>
+              <Text
+                style={{
+                  color: colors.red.default,
+                }}
+              >
+                {status}
+              </Text>
+            </When>
           </Text>
         </View>
       </View>
@@ -39,7 +57,9 @@ export default function CardUser({
         <View style={styleLayout.group}>
           <Text style={styleLayout.title}>
             {`Idade: `}
-            <Text style={styleLayout.text}>{convertDateBr(String(age).split("T")[0])}</Text>
+            <Text style={styleLayout.text}>
+              {convertDateBr(String(age).split("T")[0])}
+            </Text>
           </Text>
         </View>
         <View style={styleLayout.group}>

@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { styleLayout } from "./style";
 import { When } from "../../utils/When";
 
-export default function BoxTimeOperation({ timesOperation }) {
+export default function BoxTimeOperation({ timesOperation = [] }) {
   const { weekDays, getHours, getStatus, isStatusCurrent } =
     useTimesOperation(timesOperation);
 

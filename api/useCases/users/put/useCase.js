@@ -5,11 +5,12 @@ import { BaseModel } from "../../../database/utils/baseModel";
 
 export function PutUsersUseCase() {
   this.execute = async ({ id, ...where }) => {
+ 
     const model = new BaseModel();
     const users = new Users();
 
-    const foundUser = usersMapper(await model.findAll(users));
-
+    const foundUser = await usersMapper(await model.findAll(users));
+    
     if (
       await foundUser.find(
         (user) => user.getEmail() == where.email && user.getId() != id

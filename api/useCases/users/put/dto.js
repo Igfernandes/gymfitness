@@ -7,7 +7,6 @@ import {
 } from "../../../../src/constants/regex";
 
 const MIN_LENGHT_NAME = 3;
-const MIN_LENGHT_PASSWORD = 5;
 
 export const putUsersSchema = object({
   id: number().required(messages.id).typeError(messages.id),
@@ -39,7 +38,7 @@ export const putUsersSchema = object({
   height: string().nullable().typeError(messages.height.invalid),
   weight: string().nullable().typeError(messages.weight.invalid),
   status: string()
-    .equals(["REGULAR"], messages.status.equals)
+    .equals(["REGULAR", "NEGATIVO"], messages.status.equals)
     .nullable()
     .typeError(messages.status.equals),
 });

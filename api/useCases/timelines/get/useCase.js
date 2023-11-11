@@ -7,7 +7,8 @@ export function GetTimelinesUseCase() {
     const model = new BaseModel();
     const timeline = new Timeline();
 
-    const foundTimelines = timelineMapper(await model.findAll(timeline));
+    const data = await model.findAll(timeline);
+    const foundTimelines = await timelineMapper(data);
 
     return foundTimelines.map((timeline) => timeline.attributes);
   };

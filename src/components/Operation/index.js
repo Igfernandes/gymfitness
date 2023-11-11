@@ -8,7 +8,7 @@ import { FormChecked } from "../shared/forms/FormChecked";
 import { useCollpaseTimes } from "./hooks/useCollpaseTimes";
 import { When } from "../shared/utils/When";
 
-export default function Operation({ timesOperation }) {
+export default function Operation({ timesOperation = [] }) {
   const {
     hasMonday,
     setHasMonday,

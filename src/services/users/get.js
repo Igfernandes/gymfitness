@@ -13,8 +13,7 @@ export function useGetUser(payload) {
 
   const { data, ...rest } = useQuery({
     queryKey: ["users"],
-    queryFn: getUser,
-    enabled: true,
+    queryFn: getUser
   });
 
   return { data: data ? data["data"] : [], ...rest };

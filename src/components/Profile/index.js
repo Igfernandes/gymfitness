@@ -190,26 +190,19 @@ export default function Profile({ navigation, data = {}, isUpdate, id }) {
         <View style={styleLayout.formSubmit}>
           <Button
             text={isUpdate ? "Atualizar" : "Cadastrar"}
-            style={{
-              ...styleLayout.btnSubmit,
-              ...{
-                margimBottom: isUpdate ? "0%" : "35%",
-              }
-            }}
+            style={styleLayout.btnSubmit}
             onPress={handleSubmit}
             isLoading={isLoading}
           />
-        </View>
-        <When isValid={isUpdate}>
-          <View style={styleLayout.formDelete}>
+          <When isValid={isUpdate}>
             <Button
               text={"Excluir usuário"}
               style={styleLayout.btnDelete}
               onPress={handleDeleteUser}
               isLoading={deleteIsLoading}
             />
-          </View>
-        </When>
+          </When>
+        </View>
       </View>
     </View>
   );

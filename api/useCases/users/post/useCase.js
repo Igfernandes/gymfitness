@@ -10,7 +10,7 @@ export function PostUsersUseCase() {
     const users = new Users();
     const alerts = new Alerts();
 
-    const foundUser = usersMapper(await model.findAll(users));
+    const foundUser = await usersMapper(await model.findAll(users));
 
     if (await foundUser.find((user) => user.getEmail() == email))
       throw {

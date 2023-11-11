@@ -13,17 +13,22 @@ export default async function Database() {
   const db = null;
 
   const instance = async () => {
-    if (global.connection) return global.connection.connect();
+    try {
+      if (global.connection) return await global.connection.connect();
+     
+      const pool = new Pool({
+        Database: "gym_fitness",
+        connectionString:
+          "postgresql://postgres:123@localhost:5432/mydb?options=-c search_path=gym_fitness",
+      });
+     
+      global.connection = pool;
 
-    const pool = new Pool({
-      Database: "gym_fitness",
-      connectionString:
-        "postgresql://postgres:123@localhost:5432/mydb?options=-c search_path=gym_fitness",
-    });
-
-    global.connection = pool;
-    return pool.connect();
+      return await pool.connect();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  return db ? db : instance();
+  return db ? db : await instance();
 }

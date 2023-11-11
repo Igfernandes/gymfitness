@@ -8,18 +8,19 @@ export function useGetTimelines() {
 
   async function getTimelines() {
     try {
-      return await request().get(timelines.default);
+      const { data } = await request().get(timelines.default);
+
+      return data;
     } catch (err) {
       console.log(err);
       return [];
     }
   }
 
-  const { data, ...rest } = useQuery({
+  const timelinesQuery = useQuery({
     queryKey: ["timelines"],
     queryFn: getTimelines,
-    enabled: false,
   });
 
-  return { data: data ? data["data"] : [], ...rest };
+  return timelinesQuery;
 }
